@@ -11,10 +11,10 @@ A common workaround is to create an Initialize function that is called after the
 3. Disable *Any Platform* and then disable all of the platforms under *Include Platforms*
 4. Add **RoslynAnalyzer** as an asset tag (bottom right).
 
-Add the `[RequiresInitialization("YourInitializeFunction")]`attribute to the class.
+Add the `[RequiresInitialization(nameof(YourInitializeFunction))]`attribute to the class.
 
 ```csharp
-[RequiresInitialization("Initialize")]
+[RequiresInitialization(nameof(Initialize))]
 public class ExampleClass : MonoBehaviour
 {
     public void Initialize()
