@@ -6,6 +6,11 @@ A common workaround is to create an Initialize function that is called after the
 
 ## How to use
 
+For the `RequireInitialization` attribute add the package to the Unity project using the Package Manager with the URL:
+```
+   https://github.com/Ivories-Studios/Ensure-Object-Initialization.git?path=/Package
+```
+Then for the analyzer itself:
 1. Add the dll found in the Releases section to the Assets folder of your Unity project
 2. Click on the dll to see its import settings
 3. Disable *Any Platform* and then disable all of the platforms under *Include Platforms*
