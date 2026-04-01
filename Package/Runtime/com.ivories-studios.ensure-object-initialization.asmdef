@@ -1,0 +1,14 @@
+{
+    "name": "com.ivories-studios.ensure-object-initialization",
+    "rootNamespace": "IvoriesStudios.EnsureObjectInitialization",
+    "references": [],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": true
+}

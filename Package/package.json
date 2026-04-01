@@ -1,0 +1,10 @@
+{
+  "name": "com.ivories-studios.ensure-object-initialization",
+  "version": "1.0.0",
+  "displayName": "Ensure Object Initialization",
+  "description": "RequiresInitialization attribute. Roslyn analyzer needs separate download and install.",
+  "author": {
+    "name": "Ivories Studios",
+    "email": "ivories.studios@gmail.com"
+  }
+}

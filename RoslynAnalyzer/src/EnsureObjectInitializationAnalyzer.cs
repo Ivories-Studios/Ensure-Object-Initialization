@@ -6,10 +6,10 @@ using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Diagnostics;
 
-namespace IvoriesStudios.EnsureInitialization
+namespace IvoriesStudios.EnsureObjectInitialization
 {
     [DiagnosticAnalyzer(LanguageNames.CSharp)]
-    public class EnsureInitializationAnalyzer : DiagnosticAnalyzer
+    public class EnsureObjectInitializationAnalyzer : DiagnosticAnalyzer
     {
         public const string DiagnosticId = "EnsureInitialization";
 
@@ -36,8 +36,8 @@ namespace IvoriesStudios.EnsureInitialization
             ExpressionSyntax expression = invocationExpr.Expression;
             IMethodSymbol methodSymbol = null;
 
-            // Check if the expression is a member access (e.g., UnityEngine.Object.Instantiate)
-            if (expression is MemberAccessExpressionSyntax memberAccessExpr)
+			// Check if the expression is a member access (e.g., UnityEngine.Object.Instantiate)
+			if (expression is MemberAccessExpressionSyntax memberAccessExpr)
             {
                 methodSymbol = context.SemanticModel.GetSymbolInfo(memberAccessExpr).Symbol as IMethodSymbol;
             }
@@ -52,15 +52,15 @@ namespace IvoriesStudios.EnsureInitialization
                 return;
             }
 
-            // Check if the method is UnityEngine.Object.Instantiate or just Instantiate
-            INamedTypeSymbol containingType = methodSymbol.ContainingType;
-            if (containingType == null || containingType.ToString() != "UnityEngine.Object")
+			// Check if the method is UnityEngine.Object.Instantiate or just Instantiate
+			INamedTypeSymbol containingType = methodSymbol.ContainingType;
+            if (containingType == null || methodSymbol.Name != "Instantiate" || containingType.ToString() != "UnityEngine.Object")
             {
                 return;
             }
 
-            // Get the type of the instantiated object
-            SeparatedSyntaxList<ArgumentSyntax> argumentList = invocationExpr.ArgumentList.Arguments;
+			// Get the type of the instantiated object
+			SeparatedSyntaxList<ArgumentSyntax> argumentList = invocationExpr.ArgumentList.Arguments;
             if (argumentList.Count == 0)
             {
                 return;
@@ -74,25 +74,25 @@ namespace IvoriesStudios.EnsureInitialization
                 return;
             }
 
-            // Check if the type has the RequiresInitialization attribute
-            AttributeData requiresInitializationAttr = instantiatedType.GetAttributes()
+			// Check if the type has the RequiresInitialization attribute
+			AttributeData requiresInitializationAttr = instantiatedType.GetAttributes()
                 .FirstOrDefault(attr => attr.AttributeClass.Name == "RequiresInitializationAttribute");
 
-            if (requiresInitializationAttr == null)
+			if (requiresInitializationAttr == null)
             {
-                return;
+				return;
             }
 
-            // Get the specified initialization method name from the attribute
-            string initializationMethodName = requiresInitializationAttr.ConstructorArguments[0].Value as string;
+			// Get the specified initialization method name from the attribute
+			string initializationMethodName = requiresInitializationAttr.ConstructorArguments[0].Value as string;
 
             if (string.IsNullOrEmpty(initializationMethodName))
             {
                 return;
             }
 
-            // Find the variable that holds the instantiated object
-            string variableName = null;
+			// Find the variable that holds the instantiated object
+			string variableName = null;
 
             // Check if the parent node is a simple variable declaration
             if (invocationExpr.Parent is EqualsValueClauseSyntax equalsValueClause)

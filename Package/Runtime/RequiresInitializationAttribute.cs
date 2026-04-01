@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace IvoriesStudios.EnsureInitialization
+namespace IvoriesStudios.EnsureObjectInitialization
 {
     [AttributeUsage(AttributeTargets.Class)]
     public class RequiresInitializationAttribute : Attribute
